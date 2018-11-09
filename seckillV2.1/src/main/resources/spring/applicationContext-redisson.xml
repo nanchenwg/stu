@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:redisson="http://redisson.org/schema/redisson"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://redisson.org/schema/redisson
+       http://redisson.org/schema/redisson/redisson.xsd">
+
+	<!-- redisson默认编码方式为org.redisson.codec.JsonJacksonCodec -->
+	<!-- 修改默认编码 -->
+	<bean id="stringCodec" class="org.redisson.client.codec.StringCodec"></bean>
+
+	<!-- 单台redis配置 -->
+	<!-- <redisson:client id="redissonClient" codec-ref="stringCodec">
+		<redisson:single-server address="redis://192.168.88.144:6379"
+			connection-pool-size="30" />
+	</redisson:client> -->
+	
+	<!-- redis集群配置 -->
+	<redisson:client id="redissonClient" codec-ref="stringCodec">
+		<redisson:cluster-servers scan-interval="10000"
+			slave-connection-pool-size="500" master-connection-pool-size="500"
+			idle-connection-timeout="10000" connect-timeout="10000" timeout="5000"
+			reconnection-timeout="3000">
+			<!-- scan-interval:集群状态扫描间隔时间，单位是毫秒 -->
+			<redisson:node-address value="redis://192.168.88.144:7000"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7001"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7002"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7003"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7004"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7005"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7006"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7007"></redisson:node-address>
+			<redisson:node-address value="redis://192.168.88.144:7008"></redisson:node-address>
+		</redisson:cluster-servers>
+	</redisson:client>
+
+
+</beans>

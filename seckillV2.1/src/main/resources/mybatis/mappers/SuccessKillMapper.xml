@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seckill.mapper.SuccessKillMapper">
+	<insert id="updateSuccessKillItems">
+		insert into success_killed (seckill_id,user_id,state,create_time) values
+		<foreach collection="orders" item="item" separator=",">
+			(#{item.seckillId},#{item.userId},#{item.state},#{item.createTime})
+		</foreach>
+	</insert>
+	
+</mapper> 
